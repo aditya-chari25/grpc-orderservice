@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package ecommerce.order;
+option go_package = "github.com/your-project/proto/order";
+
+import "google/protobuf/timestamp.proto";
+
+// Order item containing product and quantity
+message OrderItem {
+  int32 product_id = 1;
+  int32 quantity = 2;
+  float unit_price = 3;
+  float total_price = 4;
+}
+
+// Request to create a new order
+message CreateOrderRequest {
+  int32 user_id = 1;
+  repeated OrderItem items = 2;
+}
+
+// Response after creating an order
+message CreateOrderResponse {
+  int32 order_id = 1;
+  float total = 2;
+  bool success = 3;
+  string message = 4;
+  string status = 5;
+}
+
+// Order details
+message Order {
+  int32 id = 1;
+  int32 user_id = 2;
+  repeated OrderItem items = 3;
+  float total = 4;
+  string status = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+// Request to get order details
+message GetOrderRequest {
+  int32 order_id = 1;
+}
+
+// Response with order details
+message GetOrderResponse {
+  Order order = 1;
+}
+
+// Request to list orders for a user
+message ListOrdersRequest {
+  int32 user_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+// Response with list of orders
+message ListOrdersResponse {
+  repeated Order orders = 1;
+  int32 total_count = 2;
+}
+
+// Request to update order status
+message UpdateOrderStatusRequest {
+  int32 order_id = 1;
+  string status = 2; // pending, confirmed, shipped, delivered, cancelled
+}
+
+// Response for order status update
+message UpdateOrderStatusResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Order service definition
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse);
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+}

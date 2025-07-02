@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ecommerce.user;
+option go_package = "github.com/your-project/proto/user";
+
+// User message
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+// Request to get a user by ID
+message GetUserRequest {
+  int32 id = 1;
+}
+
+// Response containing user data
+message GetUserResponse {
+  User user = 1;
+}
+
+// User service definition
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+}

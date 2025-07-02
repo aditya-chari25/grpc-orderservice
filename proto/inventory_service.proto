@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package ecommerce.inventory;
+option go_package = "github.com/your-project/proto/inventory";
+
+// Product message
+message Product {
+  int32 id = 1;
+  string name = 2;
+  int32 stock = 3;
+  float price = 4;
+}
+
+// Request to check stock availability
+message CheckStockRequest {
+  int32 product_id = 1;
+  int32 quantity = 2;
+}
+
+// Response with stock availability
+message CheckStockResponse {
+  bool available = 1;
+  int32 stock = 2;
+}
+
+// Request to update stock quantity
+message UpdateStockRequest {
+  int32 product_id = 1;
+  int32 quantity = 2; // Quantity to deduct
+}
+
+// Response for stock update operation
+message UpdateStockResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Request to get product details
+message GetProductRequest {
+  int32 product_id = 1;
+}
+
+// Response with product details
+message GetProductResponse {
+  Product product = 1;
+}
+
+// Request to list all products
+message ListProductsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+// Response with list of products
+message ListProductsResponse {
+  repeated Product products = 1;
+  int32 total_count = 2;
+}
+
+// Inventory service definition
+service InventoryService {
+  rpc CheckStock(CheckStockRequest) returns (CheckStockResponse);
+  rpc UpdateStock(UpdateStockRequest) returns (UpdateStockResponse);
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+}

@@ -1,0 +1,36 @@
+protoc --go_out=pkg/proto/user --go_opt=paths=source_relative \
+        --go-grpc_out=pkg/proto/user --go-grpc_opt=paths=source_relative \
+        proto/user_service.proto
+protoc --go_out=pkg/proto/inventory --go_opt=paths=source_relative \
+        --go-grpc_out=pkg/proto/inventory --go-grpc_opt=paths=source_relative \
+        proto/inventory_service.proto  
+protoc --go_out=pkg/proto/order --go_opt=paths=source_relative \
+        --go-grpc_out=pkg/proto/order --go-grpc_opt=paths=source_relative \
+        proto/order_service.proto
+
+
+curl "http://localhost:8080/check_stock?product_id=1&quantity=2"
+
+
+curl -X POST http://localhost:8080/create_order \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 1,
+    "items": [
+      {
+        "product_id": 1,
+        "quantity": 2,
+        "unit_price": 50.0,
+        "total_price": 100.0
+      }
+    ]
+  }'
+
+curl "http://localhost:8080/get_user?id=1"
+
+curl -X POST http://localhost:8080/update_stock \
+  -H "Content-Type: application/json" \
+  -d '{
+    "product_id": 1,
+    "quantity": 2
+  }'
