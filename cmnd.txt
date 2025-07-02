@@ -34,3 +34,8 @@ curl -X POST http://localhost:8080/update_stock \
     "product_id": 1,
     "quantity": 2
   }'
+
+go run cmd/inventory/main.go 
+go run cmd/order/main.go  
+go run cmd/user/main.go  
+go run cmd/api-gateway/main.go      
