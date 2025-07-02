@@ -1,0 +1,7 @@
+[API Gateway HTTP Handler]
+        ↓ calls
+[services/inventory/client.go] → gRPC client
+        ↓ over network
+[cmd/inventory/main.go] → starts gRPC server
+        ↓ calls
+[internal/inventory/server.go] → business logic
